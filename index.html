@@ -9,58 +9,87 @@
     </head>
     <body>
         <div class="container">
-            <img id="main-gif" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDgzcDIycXJ0MDFra2dnNTV1azh4MzNrbjBhbG93cWx0ZGcwYjNjNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute cat">
-            <h1>Mariutsci, vuoi essere il mio Valentino?</h1>
-            
+            <div class="gif-window">
+                <img id="main-gif" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeDgzcDIycXJ0MDFra2dnNTV1azh4MzNrbjBhbG93cWx0ZGcwYjNjNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute cat">
+            </div>
+            <div class="header-container">
+                <h1>Mariutsci, vuoi essere il mio Valentino?</h1>
+            </div>
             <div class="buttons-box">
-                <button id="yesBtn" onclick="location.href='success.html'">Sì</button>
-                <button id="noBtn">No</button>
+                <div class="button-row">
+                    <button id="yesBtn" onclick="location.href='success.html'">Sì</button>
+                    <button id="noBtn">No</button>
+                </div>
+                <p id="commentary">Non ti azzardare a cliccare no! 🦦</p>
             </div>
         </div>
 
         <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const buttonsBox = document.querySelector('.buttons-box');
+            const commentary = document.getElementById('commentary');
+            let missCount = 0;
 
-        let yesScale = 1;
+            const messages = [
+                "Ma che fai? 🤨",
+                "Sicura sicura? Guarda che ti vedo! 👀",
+                "Mamma mia, che grinta! 🏃‍♀️",
+                "Acqua... fuochino... niente! 😂",
+                "Ti stai divertendo, eh? Birbante! 💅",
+                "È inutile, rassegnati! ✨",
+                "Arrenditi, Mariutsci! È destino. 🕵️‍♂️",
+                "Il tasto verde è molto più simpatico... 🍀",
+                "Sembri un gatto che insegue un laser! 🐱",
+                "Ok, ora mi nascondo meglio! 😤"
+            ];
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            const buttonsBox = document.querySelector('.buttons-box');
 
-        noBtn.addEventListener('mouseover', () => {
-            // 1. Get current position BEFORE switching to absolute
-            const curX = noBtn.offsetLeft;
-            const curY = noBtn.offsetTop;
+            let yesScale = 1;
 
-            // 2. Set the button to absolute so it can jump
-            // We do this inside the listener so it stays centered on page load
-            if (noBtn.style.position !== 'absolute') {
-                noBtn.style.position = 'absolute';
-                noBtn.style.left = curX + 'px';
-                noBtn.style.top = curY + 'px';
-                noBtn.style.margin = '0'; // Remove any flex margins
-            }
+            noBtn.addEventListener('mouseover', () => {
+                // 1. Get current position BEFORE switching to absolute
+                const curX = noBtn.offsetLeft;
+                const curY = noBtn.offsetTop;
 
-            const minJump = 100; 
-            const maxJump = 200;
+                // 2. Set the button to absolute so it can jump
+                // We do this inside the listener so it stays centered on page load
+                if (noBtn.style.position !== 'absolute') {
+                    noBtn.style.position = 'absolute';
+                    noBtn.style.left = curX + 'px';
+                    noBtn.style.top = curY + 'px';
+                    noBtn.style.margin = '0'; // Remove any flex margins
+                }
 
-            let moveX = (minJump + Math.random() * (maxJump - minJump)) * (Math.random() > 0.5 ? 1 : -1);
-            let moveY = (minJump + Math.random() * (maxJump - minJump)) * (Math.random() > 0.5 ? 1 : -1);
+                const minJump = 100; 
+                const maxJump = 200;
 
-            let newX = curX + moveX;
-            let newY = curY + moveY;
+                let moveX = (minJump + Math.random() * (maxJump - minJump)) * (Math.random() > 0.5 ? 1 : -1);
+                let moveY = (minJump + Math.random() * (maxJump - minJump)) * (Math.random() > 0.5 ? 1 : -1);
 
-            const maxX = buttonsBox.clientWidth - noBtn.offsetWidth;
-            const maxY = buttonsBox.clientHeight - noBtn.offsetHeight;
+                let newX = curX + moveX;
+                let newY = curY + moveY;
 
-            if (newX < 0 || newX > maxX) newX = Math.random() * maxX;
-            if (newY < 0 || newY > maxY) newY = Math.random() * maxY;
+                const maxX = buttonsBox.clientWidth - noBtn.offsetWidth;
+                const maxY = buttonsBox.clientHeight - noBtn.offsetHeight;
 
-            // Apply new position
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
+                if (newX < 0 || newX > maxX) newX = Math.random() * maxX;
+                if (newY < 0 || newY > maxY) newY = Math.random() * maxY;
 
-            yesScale += 0.15;
-            yesBtn.style.transform = `scale(${yesScale})`;
-        });
+                // Apply new position
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
+
+                yesScale += 0.3;
+                yesBtn.style.transform = `scale(${yesScale})`;
+
+                if (missCount < messages.length) {
+                    commentary.textContent = messages[missCount];
+                } else {
+                    commentary.textContent = "Okay, I'm hiding it better now! 🕵️‍♂️";
+                }
+                
+                missCount++;
+            });
         </script>
     </body>
 </html>

@@ -43,28 +43,22 @@ body::before {
     text-align: center;
 }
 
-h1 {
-    font-family: 'Pacifico', cursive; /* A romantic, handwritten look */
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    color: #d63384;
-    background:rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 15px 30px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    /* Soft pink glow shadow */
-    box-shadow: 0 15px 35px rgba(214, 51, 132, 0.2);
-    display: flex; 
-    justify-content: center; 
+.gif-window {
+    width: 450px;
+    height: 250px; /* Set your desired window height */
+    margin: 0 auto;
+    overflow: hidden; /* THIS IS THE MAGIC: It crops anything that goes outside */
+    border-radius: 25px; /* Apply your desired border radius here */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
-
 #main-gif {
-    width: 50%;
-    border-radius: 30px;
+    width: 110%; 
+    height: 110%;
+    object-fit: cover;
+    display: block; 
     animation: floating 3s ease-in-out infinite;
 }
 
@@ -73,11 +67,34 @@ h1 {
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
 }
-.buttons-box {
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5rem;
+    color: #d63384;
+}
+
+.header-container {
+    background:rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    /* Soft pink glow shadow */
+    box-shadow: 0 15px 35px rgba(214, 51, 132, 0.2);
+    
     position: relative; 
-    width: 60vw; 
-    height: 350px; 
+    width: 60vw;
     margin: 20px auto 0;
+    
+    /* padding: 15px 30px; */
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    overflow: hidden;
+}
+
+.buttons-box {
     /* Semi-transparent white */
     background: rgba(255, 255, 255, 0.3); 
     border-radius: 30px;
@@ -87,17 +104,24 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0.5);
     /* Soft pink glow shadow */
     box-shadow: 0 15px 35px rgba(214, 51, 132, 0.2);
+
+    width: 60vw; 
+    height: 250px; 
+    margin: 20px auto 0;
+    position: relative; 
+    flex-direction: column; /* Stacks the button-row and the commentary */
     display: flex; 
     justify-content: center; 
     align-items: center;
     gap: 40px; /* Adjust this to change the initial distance between buttons */
 }
 
-.buttons {
-    position: relative;
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
+.button-row {
+    display: flex; /* Keeps Sì and No side-by-side */
+    gap: 40px;     /* The space between the two buttons */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 button {
@@ -138,4 +162,19 @@ button {
     box-shadow: 0 4px 15px rgba(131, 58, 180, 0.3);
     
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#commentary {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1rem;
+    color: #d63384;
+    font-weight: 600;
+    opacity: 0.8;
+    pointer-events: none; /* So it doesn't block mouse movements */
+    transition: opacity 0.3s ease;
 }
