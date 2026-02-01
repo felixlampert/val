@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I have a question...</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIyc3B6eGZ0bmR0NjR0YmR0amR0amR0amR0amR0amR0amR0amR0JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute cat">
-        <h1>Will you be my Valentine?</h1>
-        
-        <div class="buttons">
-            <button id="yesBtn" onclick="location.href='success.html'">Yes</button>
-            <button id="noBtn">No</button>
-        </div>
-    </div>
-
-    <script>
-        const noBtn = document.getElementById('noBtn');
-        
-        // This function moves the button to a random spot
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ho una domanda...</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIyc3B6eGZ0bmR0NjR0YmR0amR0amR0amR0amR0amR0amR0amR0JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute cat">
+            <h1>Mariutsci, vuoi essere il mio Valentino?</h1>
             
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-        });
-    </script>
-</body>
+            <div class="buttons-box">
+                <button id="yesBtn" onclick="location.href='success.html'">Sì</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <script>
+            const noBtn = document.getElementById('noBtn');
+            const buttonsBox = document.querySelector('.buttons-box');
+            
+            noBtn.addEventListener('mouseover', () => {
+                // 1. Calculate boundaries based on the white box
+                const maxX = buttonsBox.clientWidth - noBtn.offsetWidth;
+                const maxY = buttonsBox.clientHeight - noBtn.offsetHeight;
+                
+                // 2. Generate random positions
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                
+                // 3. Force absolute positioning relative to buttons-box
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+                noBtn.style.margin = '0'; // Removes flex gap/margin interference
+            });
+        </script>    
+    </body>
 </html>
