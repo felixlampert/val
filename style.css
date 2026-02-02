@@ -47,6 +47,7 @@ body::before {
     width: 450px;
     height: 250px; /* Set your desired window height */
     margin: 0 auto;
+    margin-bottom: 30px;
     overflow: hidden; /* THIS IS THE MAGIC: It crops anything that goes outside */
     border-radius: 25px; /* Apply your desired border radius here */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -96,6 +97,7 @@ h1 {
     
     /* padding: 15px 30px; */
     display: flex; 
+    flex-direction: column;
     justify-content: center; 
     align-items: center;
     overflow: hidden;
@@ -112,19 +114,20 @@ h1 {
     /* Soft pink glow shadow */
     box-shadow: 0 15px 35px rgba(214, 51, 132, 0.2);
 
-    width: 60vw; 
-    height: 300px; 
+    width: 60vw;
+    height: 300px;
     margin: 20px auto 0;
-    position: relative; 
+    position: relative;
     flex-direction: column; /* Stacks the button-row and the commentary */
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 40px; /* Adjust this to change the initial distance between buttons */
 }
 
 .button-row {
     display: flex; /* Keeps Sì and No side-by-side */
+    padding-bottom: 60px;
     gap: 40px;     /* The space between the two buttons */
     align-items: center;
     justify-content: center;
@@ -194,4 +197,92 @@ button {
     opacity: 0.8;
     pointer-events: none; /* So it doesn't block mouse movements */
     transition: opacity 0.3s ease;
+}
+
+/* 1. The Container for the Ticket */
+.ticket-container {
+    width: 60vw;          /* Same width as your header-container */
+    margin: 40px auto 0;  /* 40px adds the spacing above, auto centers it */
+    display: flex;
+    justify-content: center;
+}
+
+/* 2. The Ticket itself */
+.ticket {
+    display: flex;
+    width: 100%;          /* Fills the 60vw container */
+    height: 220px;
+    background: white;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    
+    /* Masking for the notches */
+    mask-image: radial-gradient(circle at 30% 0%, transparent 20px, black 21px),
+                radial-gradient(circle at 30% 100%, transparent 20px, black 21px);
+    -webkit-mask-composite: destination-in;
+    mask-composite: intersect;
+    
+    border-radius: 30px;  /* Matches the 30px radius of your header-container */
+}
+
+/* We no longer need the .notch background color, just the positioning for the dashed line */
+.ticket-left {
+    background: linear-gradient(135deg, #d63384 0%, #833ab4 100%);
+    color: white;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/* Use a pseudo-element for the dashed line so it doesn't get cut weirdly */
+.ticket-left::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20px;
+    bottom: 20px;
+    border-right: 2px dashed rgba(255,255,255,0.3);
+}
+.ticket-right {
+    flex-grow: 1;
+    position: relative; /* This pins the canvas to ONLY this container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    overflow: hidden; /* Keeps the scratch layer within the rounded corners */
+}
+
+#scratch-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Sits on top of the text */
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.ticket-date {
+    font-family: 'Dancing Script', cursive; /* A romantic font */
+    font-size: 3rem;
+    line-height: 1;
+    margin: 10px 0;
+    font-weight: 800;
+}
+
+.location-box {
+    padding: 20px;
+    text-align: center;
+}
+
+.location-name {
+    font-family: 'Dancing Script', cursive; /* A romantic font */
+    font-size: 2.2rem;
+    color: #d63384;
 }

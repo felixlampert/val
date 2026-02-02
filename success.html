@@ -2,11 +2,120 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap">
 </head>
 <body>
     <div class="container">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGltNWE3cjJtNTY0aTF1bjM2Njc3eXNqY3RjamEwOTB3bjBhZmJlcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JROdX1NqyYPBIWWL91/giphy.gif" alt="Celebration">
-        <h1>Yay! See you on the 14th! ❤️</h1>
+        <div class="header-container">
+            <h1>Yippie! Ci vediamo il 14! ❤️</h1>
+            <div class="gif-window">
+                <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGltNWE3cjJtNTY0aTF1bjM2Njc3eXNqY3RjamEwOTB3bjBhZmJlcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JROdX1NqyYPBIWWL91/giphy.gif" alt="Celebration">
+            </div>
+        </div>
+        <div class="ticket-container">
+            <div class="ticket">
+                <div class="ticket-left">
+                    <div class="stub-info">
+                        <span class="ticket-event">SAN VALENTINO</span>
+                        <h1 class="ticket-date">14<br>FEB</h1>
+                        <span class="ticket-year">2026</span>
+                    </div>
+                </div>
+
+                <div class="ticket-right">
+                    <div class="location-box">
+                        <p class="reveal-hint">DESTINAZIONE:</p>
+                        <h2 class="location-name">Cena al lume di candela ✨</h2>
+                    </div>
+                    <canvas id="scratch-layer"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // This runs as soon as the page is fully loaded
+        window.addEventListener('load', () => {
+            
+            // 1. Basic burst
+            confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#ff69b4', '#ff1493', '#ffffff', '#2d6a4f'] // Pinks, white, and your green
+            });
+
+            // 2. Extra "Side" bursts for more drama
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+            // since particles fall down, start a bit higher than random
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        });
+
+        const canvas = document.getElementById('scratch-layer');
+        const ctx = canvas.getContext('2d');
+
+        function initScratch() {
+            // This grabs the width/height of the .ticket-right div specifically
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+
+            const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            grad.addColorStop(0, '#e6b8af'); 
+            grad.addColorStop(0.5, '#d4a373'); 
+            grad.addColorStop(1, '#c08497'); 
+
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Instruction text centered in the right half
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 14px Quicksand';
+            ctx.textAlign = 'center';
+            ctx.fillText('GRATTA QUI ✨', canvas.width/2, canvas.height/2 + 5);
+        }
+
+        // Scratch function with a "soft edge" brush
+        function scratch(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || (e.touches ? e.touches[0].clientX : 0)) - rect.left;
+            const y = (e.clientY || (e.touches ? e.touches[0].clientY : 0)) - rect.top;
+
+            ctx.globalCompositeOperation = 'destination-out';
+            
+            // Create a feathered brush effect
+            const radialGrad = ctx.createRadialGradient(x, y, 0, x, y, 25);
+            radialGrad.addColorStop(0, 'rgba(0,0,0,1)');
+            radialGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            
+            ctx.fillStyle = radialGrad;
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Event Listeners
+        canvas.addEventListener('mousemove', (e) => { if (e.buttons === 1) scratch(e); });
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, {passive: false});
+
+        window.addEventListener('load', initScratch);
+        window.addEventListener('resize', initScratch);
+    </script>
 </body>
 </html>

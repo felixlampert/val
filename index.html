@@ -50,10 +50,7 @@
                 "Acqua... fuochino... niente! 😂",
                 "Ti stai divertendo, eh? Birbante! 💅",
                 "È inutile, rassegnati! ✨",
-                "Arrenditi, Mariutsci! È destino. 🕵️‍♂️",
-                "Il tasto verde è molto più simpatico... 🍀",
-                "Sembri un gatto che insegue un laser! 🐱",
-                "Ok, ora mi nascondo meglio! 😤"
+                "Arrenditi, Mariutsci! È destino. 🕵️‍♂️"
             ];
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
@@ -85,8 +82,13 @@
                 let newY = curY + moveY;
 
                 const maxX = buttonsBox.clientWidth - noBtn.offsetWidth;
-                const maxY = buttonsBox.clientHeight - noBtn.offsetHeight;
 
+                // --- SAFETY ZONE LOGIC ---
+                // Subtract 60 (commentary height) and an extra 20 for padding
+                const safetyZone = 80; 
+                const maxY = buttonsBox.clientHeight - noBtn.offsetHeight - safetyZone;
+
+                // Ensure newY doesn't enter the safety zone
                 if (newX < 0 || newX > maxX) newX = Math.random() * maxX;
                 if (newY < 0 || newY > maxY) newY = Math.random() * maxY;
 
@@ -105,7 +107,7 @@
                 if (missCount < messages.length) {
                     commentary.textContent = messages[missCount];
                 } else {
-                    commentary.textContent = "Okay, I'm hiding it better now! 🕵️‍♂️";
+                    commentary.textContent = "Arrenditi, Mariutsci! È destino. 🕵️‍♂️";
                 }
                 
                 missCount++;
