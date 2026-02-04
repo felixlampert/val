@@ -253,7 +253,7 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #fff;
+    color: #d63384;
     overflow: hidden; /* Keeps the scratch layer within the rounded corners */
 }
 
@@ -285,4 +285,10 @@ button {
     font-family: 'Dancing Script', cursive; /* A romantic font */
     font-size: 2.2rem;
     color: #d63384;
+}
+
+.ticket p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    margin: 0;
 }
